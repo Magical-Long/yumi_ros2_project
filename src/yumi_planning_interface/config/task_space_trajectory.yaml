@@ -1,0 +1,72 @@
+yumi_planning_interface:
+  ros__parameters:
+    # 是否强制要求左右臂的 FollowJointTrajectory action server 必须存在。
+    # false:
+    # - planning_interface 以“纯规划模式”启动
+    # - cooperative_controller 调用的 PlanTaskSpaceTrajectory 可正常工作
+    # - 但执行类接口会被显式禁用
+    # true:
+    # - planning_interface 同时支持规划和轨迹执行
+    require_trajectory_action_servers: false
+
+    # 任务空间规划默认参考坐标系。
+    # 当 action goal 中未显式给出 reference_frame 时，使用这里的值。
+    default_pose_reference_frame: world
+
+    # MoveIt 规划时间上限，单位秒。
+    # 注意：这不是输出轨迹总时长，而是规划器求解的最长等待时间。
+    default_task_space_planning_time: 5.0
+
+    # MoveIt 规划尝试次数。
+    default_task_space_num_planning_attempts: 3
+
+    # 规划阶段速度/加速度缩放因子。
+    default_task_space_velocity_scaling: 0.2
+    default_task_space_acceleration_scaling: 0.2
+
+    # 任务空间轨迹输出的默认采样周期，单位秒。
+    # planning_interface 会按这个周期对 MoveIt 结果进行时间重采样，然后逐点做 FK。
+    default_task_space_sample_period: 0.02
+
+    # 输出轨迹总时长缩放因子。
+    # 1.0 表示保持 MoveIt 轨迹原始时长；
+    # >1.0 表示整体放慢；<1.0 表示整体加快。
+    # 这个缩放发生在任务空间轨迹输出阶段，不会反过来影响 MoveIt 求解。
+    default_task_space_duration_scale: 1.0
+
+    # 笛卡尔路径相关默认参数。
+    default_task_space_cartesian_step: 0.01
+    default_task_space_jump_threshold: 0.0
+    default_task_space_avoid_collisions: true
+
+    # IK 构型偏好种子，每 7 个数为一组关节构型。
+    # YAML 中的 seed 顺序固定为：
+    # joint_1, joint_2, joint_7, joint_3, joint_4, joint_5, joint_6
+    # planning_interface 会按 joint name 映射到 MoveIt group 内部顺序。
+    # 当前评分优先选择更接近最后一组 seed 的 IK 解。
+    preferred_ik_seed_count: 5
+    preferred_ik_timeout_sec: 0.05
+    left_preferred_ik_seeds: [
+      0.0, -1.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+      0.27, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+      0.27, -0.28, 0.0, 0.0, 0.0, 0.0, 0.0,
+      1.73, 0.0, -1.35, 0.0, 0.0, 0.0, 0.0,
+      1.95, 0.0, -1.35, 0.0, 0.0, 0.0, 0.0
+    ]
+    right_preferred_ik_seeds: [
+      0.0, -1.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+      -0.27, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+      -0.27, -0.28, 0.0, 0.0, 0.0, 0.0, 0.0,
+      -1.73, 0.0, 1.35, 0.0, 0.0, 0.0, 0.0,
+      -1.95, 0.0, 1.35, 0.0, 0.0, 0.0, 0.0
+    ]
+
+    # 双臂镜像构型约束，顺序同样是 joint_1, joint_2, joint_7, joint_3, joint_4, joint_5, joint_6。
+    # 希望 q_left[j] 接近 dual_arm_symmetry_signs[j] * q_right[j]。
+    dual_arm_symmetry_signs: [-1.0, 1.0, -1.0, 1.0, -1.0, 1.0, -1.0]
+    dual_arm_symmetry_weight: 1.0
+
+    # IK 评分权重，顺序同样是 joint_1, joint_2, joint_7, joint_3, joint_4, joint_5, joint_6。
+    # joint_7 / joint_3 / joint_4 与肘部构型关系更强，所以默认权重更高。
+    ik_posture_joint_weights: [1.0, 1.0, 2.5, 1.8, 2.5, 1.2, 1.2]
+    ik_current_state_weight: 0.1

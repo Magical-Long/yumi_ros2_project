@@ -1,0 +1,1668 @@
+<sdf version='1.7'>
+  <world name='default'>
+    <light name='sun' type='directional'>
+      <cast_shadows>1</cast_shadows>
+      <pose>0 0 10 0 -0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>0</outer_angle>
+        <falloff>0</falloff>
+      </spot>
+    </light>
+    <model name='ground_plane'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <cast_shadows>0</cast_shadows>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+    </model>
+    <gravity>0 0 -9.8</gravity>
+    <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
+    <atmosphere type='adiabatic'/>
+    <physics type='ode'>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+    <scene>
+      <ambient>0.4 0.4 0.4 1</ambient>
+      <background>0.7 0.7 0.7 1</background>
+      <shadows>1</shadows>
+    </scene>
+    <wind/>
+    <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model>
+      <latitude_deg>0</latitude_deg>
+      <longitude_deg>0</longitude_deg>
+      <elevation>0</elevation>
+      <heading_deg>0</heading_deg>
+    </spherical_coordinates>
+    <model name='yumi'>
+      <joint name='world_joint' type='fixed'>
+        <pose relative_to='__model__'>0 0 0 0 -0 0</pose>
+        <parent>world</parent>
+        <child>yumi_body</child>
+      </joint>
+      <link name='yumi_body'>
+        <pose relative_to='world_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 0.1 0 -0 0</pose>
+          <mass>15</mass>
+          <inertia>
+            <ixx>0.6</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.5</iyy>
+            <iyz>0</iyz>
+            <izz>0.3</izz>
+          </inertia>
+        </inertial>
+        <collision name='yumi_body_fixed_joint_lump__collision_collision'>
+          <pose>0 0 0.1 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/coarse/body.stl</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='yumi_body_fixed_joint_lump__test_visual'>
+          <pose>0 0 0.1 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/body.stl</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='yumi_joint_1_l' type='revolute'>
+        <pose relative_to='yumi_body'>0.05355 0.07249 0.51492 0.9781 -0.5716 2.318</pose>
+        <parent>yumi_body</parent>
+        <child>yumi_link_1_l</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-2.9394</lower>
+            <upper>2.9394</upper>
+            <effort>300</effort>
+            <velocity>3.14</velocity>
+          </limit>
+          <dynamics>
+            <damping>0.5</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='yumi_link_1_l'>
+        <pose relative_to='yumi_joint_1_l'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>0.1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.1</iyy>
+            <iyz>0</iyz>
+            <izz>0.1</izz>
+          </inertia>
+        </inertial>
+        <collision name='yumi_link_1_l_fixed_joint_lump__collision_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/coarse/link_1.stl</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='yumi_link_1_l_fixed_joint_lump__yumi_link1l_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/link_1.stl</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='yumi_joint_2_l' type='revolute'>
+        <pose relative_to='yumi_link_1_l'>0.03 0 0.1 1.5707 -0 0</pose>
+        <parent>yumi_link_1_l</parent>
+        <child>yumi_link_2_l</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-2.5033</lower>
+            <upper>0.7588</upper>
+            <effort>300</effort>
+            <velocity>3.14</velocity>
+          </limit>
+          <dynamics>
+            <damping>0.5</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='yumi_link_2_l'>
+        <pose relative_to='yumi_joint_2_l'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>0.1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.1</iyy>
+            <iyz>0</iyz>
+            <izz>0.1</izz>
+          </inertia>
+        </inertial>
+        <collision name='yumi_link_2_l_fixed_joint_lump__collision_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/coarse/link_2.stl</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='yumi_link_2_l_fixed_joint_lump__yumi_link2_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/link_2.stl</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='yumi_joint_7_l' type='revolute'>
+        <pose relative_to='yumi_link_2_l'>-0.03 0.17283 0 -1.5707 0 0</pose>
+        <parent>yumi_link_2_l</parent>
+        <child>yumi_link_3_l</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-2.9394</lower>
+            <upper>2.9394</upper>
+            <effort>300</effort>
+            <velocity>3.14</velocity>
+          </limit>
+          <dynamics>
+            <damping>0.5</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='yumi_link_3_l'>
+        <pose relative_to='yumi_joint_7_l'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>0.1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.1</iyy>
+            <iyz>0</iyz>
+            <izz>0.1</izz>
+          </inertia>
+        </inertial>
+        <collision name='yumi_link_3_l_fixed_joint_lump__collision_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/coarse/link_3.stl</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='yumi_link_3_l_fixed_joint_lump__yumi_link3_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/link_3.stl</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='yumi_joint_3_l' type='revolute'>
+        <pose relative_to='yumi_link_3_l'>-0.04188 0 0.07873 1.5707 -1.5707 0</pose>
+        <parent>yumi_link_3_l</parent>
+        <child>yumi_link_4_l</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-2.1544</lower>
+            <upper>1.3956</upper>
+            <effort>300</effort>
+            <velocity>3.14</velocity>
+          </limit>
+          <dynamics>
+            <damping>0.5</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='yumi_link_4_l'>
+        <pose relative_to='yumi_joint_3_l'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>0.1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.1</iyy>
+            <iyz>0</iyz>
+            <izz>0.1</izz>
+          </inertia>
+        </inertial>
+        <collision name='yumi_link_4_l_fixed_joint_lump__collision_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/coarse/link_4.stl</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='yumi_link_4_l_fixed_joint_lump__yumi_link4_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/link_4.stl</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='yumi_joint_4_l' type='revolute'>
+        <pose relative_to='yumi_link_4_l'>0.0405 0.16461 0 -1.5707 0 0</pose>
+        <parent>yumi_link_4_l</parent>
+        <child>yumi_link_5_l</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-5.0589</lower>
+            <upper>5.0589</upper>
+            <effort>300</effort>
+            <velocity>6.98</velocity>
+          </limit>
+          <dynamics>
+            <damping>0.5</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='yumi_link_5_l'>
+        <pose relative_to='yumi_joint_4_l'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>0.1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.1</iyy>
+            <iyz>0</iyz>
+            <izz>0.1</izz>
+          </inertia>
+        </inertial>
+        <collision name='yumi_link_5_l_fixed_joint_lump__collision_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/coarse/link_5.stl</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='yumi_link_5_l_fixed_joint_lump__yumi_link5_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/link_5.stl</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='yumi_joint_5_l' type='revolute'>
+        <pose relative_to='yumi_link_5_l'>-0.027 0 0.10039 1.5707 -0 0</pose>
+        <parent>yumi_link_5_l</parent>
+        <child>yumi_link_6_l</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-1.5351</lower>
+            <upper>2.4073</upper>
+            <effort>300</effort>
+            <velocity>6.98</velocity>
+          </limit>
+          <dynamics>
+            <damping>0.5</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='yumi_link_6_l'>
+        <pose relative_to='yumi_joint_5_l'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>0.1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.1</iyy>
+            <iyz>0</iyz>
+            <izz>0.1</izz>
+          </inertia>
+        </inertial>
+        <collision name='yumi_link_6_l_fixed_joint_lump__collision_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/coarse/link_6.stl</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='yumi_link_6_l_fixed_joint_lump__yumi_link5_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/link_6.stl</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='yumi_joint_6_l' type='revolute'>
+        <pose relative_to='yumi_link_6_l'>0.027 0.029 0 -1.5707 0 0</pose>
+        <parent>yumi_link_6_l</parent>
+        <child>yumi_link_7_l</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-3.9948</lower>
+            <upper>3.9948</upper>
+            <effort>300</effort>
+            <velocity>3.14</velocity>
+          </limit>
+          <dynamics>
+            <damping>0.5</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='yumi_link_7_l'>
+        <pose relative_to='yumi_joint_6_l'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 0.001167 0 -0 0</pose>
+          <mass>1.2</mass>
+          <inertia>
+            <ixx>0.100108</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.100108</iyy>
+            <iyz>0</iyz>
+            <izz>0.1001</izz>
+          </inertia>
+        </inertial>
+        <collision name='yumi_link_7_l_fixed_joint_lump__collision_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/coarse/link_7.stl</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <collision name='yumi_link_7_l_fixed_joint_lump__gripper_l_base_collision_1'>
+          <pose>0 0 0.007 0 0 -3.14159</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/gripper/coarse/base.stl</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='yumi_link_7_l_fixed_joint_lump__yumi_link7_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/link_7.stl</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <visual name='yumi_link_7_l_fixed_joint_lump__gripper_l_base_visual_1'>
+          <pose>0 0 0.007 0 0 -3.14159</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/gripper/base.stl</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='yumi_joint_gripper_l_finger_l' type='prismatic'>
+        <pose relative_to='yumi_link_7_l'>0 -0.0065 0.0907 0 -0 1.5e-05</pose>
+        <parent>yumi_link_7_l</parent>
+        <child>gripper_l_finger_l</child>
+        <axis>
+          <xyz>-1 0 0</xyz>
+          <limit>
+            <lower>0</lower>
+            <upper>0.025</upper>
+            <effort>300</effort>
+            <velocity>0.02</velocity>
+          </limit>
+          <dynamics>
+            <damping>0.5</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='gripper_l_finger_l'>
+        <pose relative_to='yumi_joint_gripper_l_finger_l'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>0.01</mass>
+          <inertia>
+            <ixx>1e-06</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1e-06</iyy>
+            <iyz>0</iyz>
+            <izz>1e-06</izz>
+          </inertia>
+        </inertial>
+        <collision name='gripper_l_finger_l_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/gripper/coarse/finger.stl</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='gripper_l_finger_l_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/gripper/finger.stl</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='yumi_joint_gripper_l_finger_r' type='prismatic'>
+        <pose relative_to='yumi_link_7_l'>-0 0.0065 0.0907 0 0 -3.14159</pose>
+        <parent>yumi_link_7_l</parent>
+        <child>gripper_l_finger_r</child>
+        <axis>
+          <xyz>-1 0 0</xyz>
+          <limit>
+            <lower>0</lower>
+            <upper>0.025</upper>
+            <effort>300</effort>
+            <velocity>0.02</velocity>
+          </limit>
+          <dynamics>
+            <damping>0.5</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='gripper_l_finger_r'>
+        <pose relative_to='yumi_joint_gripper_l_finger_r'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>0.01</mass>
+          <inertia>
+            <ixx>1e-06</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1e-06</iyy>
+            <iyz>0</iyz>
+            <izz>1e-06</izz>
+          </inertia>
+        </inertial>
+        <collision name='gripper_l_finger_r_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/gripper/coarse/finger.stl</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='gripper_l_finger_r_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/gripper/finger.stl</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='yumi_joint_1_r' type='revolute'>
+        <pose relative_to='yumi_body'>0.05355 -0.07249 0.51492 -0.9795 -0.5682 -2.3155</pose>
+        <parent>yumi_body</parent>
+        <child>yumi_link_1_r</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-2.9394</lower>
+            <upper>2.9394</upper>
+            <effort>300</effort>
+            <velocity>3.14</velocity>
+          </limit>
+          <dynamics>
+            <damping>0.5</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='yumi_link_1_r'>
+        <pose relative_to='yumi_joint_1_r'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>0.1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.1</iyy>
+            <iyz>0</iyz>
+            <izz>0.1</izz>
+          </inertia>
+        </inertial>
+        <collision name='yumi_link_1_r_fixed_joint_lump__collision_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/coarse/link_1.stl</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='yumi_link_1_r_fixed_joint_lump__yumi_link1_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/link_1.stl</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='yumi_joint_2_r' type='revolute'>
+        <pose relative_to='yumi_link_1_r'>0.03 0 0.1 1.5707 -0 0</pose>
+        <parent>yumi_link_1_r</parent>
+        <child>yumi_link_2_r</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-2.5033</lower>
+            <upper>0.7588</upper>
+            <effort>300</effort>
+            <velocity>3.14</velocity>
+          </limit>
+          <dynamics>
+            <damping>0.5</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='yumi_link_2_r'>
+        <pose relative_to='yumi_joint_2_r'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>0.1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.1</iyy>
+            <iyz>0</iyz>
+            <izz>0.1</izz>
+          </inertia>
+        </inertial>
+        <collision name='yumi_link_2_r_fixed_joint_lump__collision_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/coarse/link_2.stl</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='yumi_link_2_r_fixed_joint_lump__yumi_link2_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/link_2.stl</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='yumi_joint_7_r' type='revolute'>
+        <pose relative_to='yumi_link_2_r'>-0.03 0.17283 0 -1.5707 0 0</pose>
+        <parent>yumi_link_2_r</parent>
+        <child>yumi_link_3_r</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-2.9394</lower>
+            <upper>2.9394</upper>
+            <effort>300</effort>
+            <velocity>3.14</velocity>
+          </limit>
+          <dynamics>
+            <damping>0.5</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='yumi_link_3_r'>
+        <pose relative_to='yumi_joint_7_r'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>0.1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.1</iyy>
+            <iyz>0</iyz>
+            <izz>0.1</izz>
+          </inertia>
+        </inertial>
+        <collision name='yumi_link_3_r_fixed_joint_lump__collision_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/coarse/link_3.stl</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='yumi_link_3_r_fixed_joint_lump__yumi_link3_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/link_3.stl</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='yumi_joint_3_r' type='revolute'>
+        <pose relative_to='yumi_link_3_r'>-0.04188 0 0.07873 1.5707 -1.5707 0</pose>
+        <parent>yumi_link_3_r</parent>
+        <child>yumi_link_4_r</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-2.1544</lower>
+            <upper>1.3956</upper>
+            <effort>300</effort>
+            <velocity>3.14</velocity>
+          </limit>
+          <dynamics>
+            <damping>0.5</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='yumi_link_4_r'>
+        <pose relative_to='yumi_joint_3_r'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>0.1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.1</iyy>
+            <iyz>0</iyz>
+            <izz>0.1</izz>
+          </inertia>
+        </inertial>
+        <collision name='yumi_link_4_r_fixed_joint_lump__collision_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/coarse/link_4.stl</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='yumi_link_4_r_fixed_joint_lump__yumi_link4_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/link_4.stl</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='yumi_joint_4_r' type='revolute'>
+        <pose relative_to='yumi_link_4_r'>0.0405 0.16461 0 -1.5707 0 0</pose>
+        <parent>yumi_link_4_r</parent>
+        <child>yumi_link_5_r</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-5.0589</lower>
+            <upper>5.0589</upper>
+            <effort>300</effort>
+            <velocity>6.98</velocity>
+          </limit>
+          <dynamics>
+            <damping>0.5</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='yumi_link_5_r'>
+        <pose relative_to='yumi_joint_4_r'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>0.1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.1</iyy>
+            <iyz>0</iyz>
+            <izz>0.1</izz>
+          </inertia>
+        </inertial>
+        <collision name='yumi_link_5_r_fixed_joint_lump__collision_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/coarse/link_5.stl</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='yumi_link_5_r_fixed_joint_lump__yumi_link5_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/link_5.stl</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='yumi_joint_5_r' type='revolute'>
+        <pose relative_to='yumi_link_5_r'>-0.027 0 0.10039 1.5707 -0 0</pose>
+        <parent>yumi_link_5_r</parent>
+        <child>yumi_link_6_r</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-1.5351</lower>
+            <upper>2.4073</upper>
+            <effort>300</effort>
+            <velocity>6.98</velocity>
+          </limit>
+          <dynamics>
+            <damping>0.5</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='yumi_link_6_r'>
+        <pose relative_to='yumi_joint_5_r'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>0.1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.1</iyy>
+            <iyz>0</iyz>
+            <izz>0.1</izz>
+          </inertia>
+        </inertial>
+        <collision name='yumi_link_6_r_fixed_joint_lump__collision_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/coarse/link_6.stl</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='yumi_link_6_r_fixed_joint_lump__yumi_link5_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/link_6.stl</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='yumi_joint_6_r' type='revolute'>
+        <pose relative_to='yumi_link_6_r'>0.027 0.029 0 -1.5707 0 0</pose>
+        <parent>yumi_link_6_r</parent>
+        <child>yumi_link_7_r</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-3.9948</lower>
+            <upper>3.9948</upper>
+            <effort>300</effort>
+            <velocity>3.14</velocity>
+          </limit>
+          <dynamics>
+            <damping>0.5</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='yumi_link_7_r'>
+        <pose relative_to='yumi_joint_6_r'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 0.001167 0 -0 0</pose>
+          <mass>1.2</mass>
+          <inertia>
+            <ixx>0.100108</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.100108</iyy>
+            <iyz>0</iyz>
+            <izz>0.1001</izz>
+          </inertia>
+        </inertial>
+        <collision name='yumi_link_7_r_fixed_joint_lump__collision_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/coarse/link_7.stl</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <collision name='yumi_link_7_r_fixed_joint_lump__gripper_r_base_collision_1'>
+          <pose>0 0 0.007 0 0 -3.14159</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/gripper/coarse/base.stl</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='yumi_link_7_r_fixed_joint_lump__yumi_link7_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/link_7.stl</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <visual name='yumi_link_7_r_fixed_joint_lump__gripper_r_base_visual_1'>
+          <pose>0 0 0.007 0 0 -3.14159</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/gripper/base.stl</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='yumi_joint_gripper_r_finger_l' type='prismatic'>
+        <pose relative_to='yumi_link_7_r'>0 -0.0065 0.0907 0 -0 1.5e-05</pose>
+        <parent>yumi_link_7_r</parent>
+        <child>gripper_r_finger_l</child>
+        <axis>
+          <xyz>-1 0 0</xyz>
+          <limit>
+            <lower>0</lower>
+            <upper>0.025</upper>
+            <effort>300</effort>
+            <velocity>0.02</velocity>
+          </limit>
+          <dynamics>
+            <damping>0.5</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='gripper_r_finger_l'>
+        <pose relative_to='yumi_joint_gripper_r_finger_l'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>0.01</mass>
+          <inertia>
+            <ixx>1e-06</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1e-06</iyy>
+            <iyz>0</iyz>
+            <izz>1e-06</izz>
+          </inertia>
+        </inertial>
+        <collision name='gripper_r_finger_l_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/gripper/coarse/finger.stl</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='gripper_r_finger_l_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/gripper/finger.stl</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='yumi_joint_gripper_r_finger_r' type='prismatic'>
+        <pose relative_to='yumi_link_7_r'>-0 0.0065 0.0907 0 0 -3.14159</pose>
+        <parent>yumi_link_7_r</parent>
+        <child>gripper_r_finger_r</child>
+        <axis>
+          <xyz>-1 0 0</xyz>
+          <limit>
+            <lower>0</lower>
+            <upper>0.025</upper>
+            <effort>300</effort>
+            <velocity>0.02</velocity>
+          </limit>
+          <dynamics>
+            <damping>0.5</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='gripper_r_finger_r'>
+        <pose relative_to='yumi_joint_gripper_r_finger_r'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>0.01</mass>
+          <inertia>
+            <ixx>1e-06</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1e-06</iyy>
+            <iyz>0</iyz>
+            <izz>1e-06</izz>
+          </inertia>
+        </inertial>
+        <collision name='gripper_r_finger_r_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/gripper/coarse/finger.stl</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='gripper_r_finger_r_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>package://yumi_description/meshes/gripper/finger.stl</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <plugin name='gazebo_ros2_control' filename='libgazebo_ros2_control.so'>
+        <robot_param>robot_description</robot_param>
+        <robot_param_node>/robot_state_publisher</robot_param_node>
+        <parameters>package://yumi_simulation_interfaces/config/ros2_controllers_velocity.yaml</parameters>
+      </plugin>
+      <frame name='yumi_joint_8_l' attached_to='yumi_link_7_l'>
+        <pose>0 0 0.007 0 -0 -3.14159</pose>
+      </frame>
+      <frame name='gripper_l_base' attached_to='yumi_joint_8_l'/>
+      <frame name='yumi_joint_8_r' attached_to='yumi_link_7_r'>
+        <pose>0 0 0.007 0 -0 -3.14159</pose>
+      </frame>
+      <frame name='gripper_r_base' attached_to='yumi_joint_8_r'/>
+      <pose>0 0 0 0 -0 0</pose>
+    </model>
+    <model name='unit_box'>
+      <pose>1.44759 0.010028 0.5 0 -0 0</pose>
+      <link name='link'>
+        <inertial>
+          <mass>1</mass>
+          <inertia>
+            <ixx>0.166667</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.166667</iyy>
+            <iyz>0</iyz>
+            <izz>0.166667</izz>
+          </inertia>
+          <pose>0 0 0 0 -0 0</pose>
+        </inertial>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>1 1 1</size>
+            </box>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>1 1 1</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Grey</name>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+            </script>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+    </model>
+    <state world_name='default'>
+      <sim_time>1307 906000000</sim_time>
+      <real_time>887 963315633</real_time>
+      <wall_time>1780824409 650883657</wall_time>
+      <iterations>572864</iterations>
+      <model name='ground_plane'>
+        <pose>0 0 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>0 0 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='unit_box'>
+        <pose>0.412784 0.011732 0.096372 1e-06 4e-06 0</pose>
+        <scale>0.230399 0.228078 0.192743</scale>
+        <link name='link'>
+          <pose>0.412784 0.011732 0.096372 1e-06 4e-06 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>-0.803011 0.794923 2.92689 1.1763 -1.09237 -3.14159</acceleration>
+          <wrench>-0.803011 0.794923 2.92689 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='yumi'>
+        <pose>0 0 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='gripper_l_finger_l'>
+          <pose>0.538207 0.290322 0.267138 -1.43601 0.789308 -1.52177</pose>
+          <velocity>-8e-06 0.000164 0.000167 1.7e-05 4.3e-05 -9.5e-05</velocity>
+          <acceleration>-0.000519 -0.031072 -0.025379 0.007617 -0.081363 -0.060506</acceleration>
+          <wrench>-5e-06 -0.000311 -0.000254 0 -0 0</wrench>
+        </link>
+        <link name='gripper_l_finger_r'>
+          <pose>0.540367 0.281951 0.240316 1.43601 -0.7893 1.61983</pose>
+          <velocity>-4.6e-05 0.000807 0.000815 -3.4e-05 -0.000741 0.000709</velocity>
+          <acceleration>-0.014018 -0.107718 -0.107405 3.05124 -1.00963 -1.07871</acceleration>
+          <wrench>-0.00014 -0.001077 -0.001074 0 -0 0</wrench>
+        </link>
+        <link name='gripper_r_finger_l'>
+          <pose>0.438541 -0.158417 0.1665 -1.4268 0.788963 -1.51552</pose>
+          <velocity>-4e-06 8.4e-05 8.6e-05 2.2e-05 8.2e-05 -0.0001</velocity>
+          <acceleration>0.0011 -0.02792 -0.024149 0.013491 0.01244 -0.091107</acceleration>
+          <wrench>1.1e-05 -0.000279 -0.000241 0 -0 0</wrench>
+        </link>
+        <link name='gripper_r_finger_r'>
+          <pose>0.440873 -0.166787 0.139694 1.4268 -0.788952 1.62607</pose>
+          <velocity>-2e-06 4.2e-05 4.3e-05 -3e-06 5e-05 -7.4e-05</velocity>
+          <acceleration>0.001509 -0.017985 -0.013844 -0.013111 0.025664 -0.106302</acceleration>
+          <wrench>1.5e-05 -0.00018 -0.000138 0 -0 0</wrench>
+        </link>
+        <link name='yumi_body'>
+          <pose>0 0 0 0 -0 0</pose>
+          <velocity>-0 0 0 1e-06 -0 0</velocity>
+          <acceleration>-0.000123 -0.000178 -0.000233 0.002779 -0.001477 -0.00011</acceleration>
+          <wrench>-0.001847 -0.00267 -0.003491 0 -0 0</wrench>
+        </link>
+        <link name='yumi_link_1_l'>
+          <pose>0.05355 0.07249 0.51492 0.154204 1.07533 0.572699</pose>
+          <velocity>1e-06 -2e-06 0 4e-06 1e-06 -1e-06</velocity>
+          <acceleration>-0.000134 -0.002261 0.000335 -1.22883 -0.519014 -0.713161</acceleration>
+          <wrench>-0.000134 -0.002261 0.000335 0 -0 0</wrench>
+        </link>
+        <link name='yumi_link_1_r'>
+          <pose>0.05355 -0.07249 0.51492 -0.873412 0.750122 -1.44983</pose>
+          <velocity>0 -1e-06 -0 1e-06 1e-06 -1e-06</velocity>
+          <acceleration>-0.000664 -0.001417 -0.000353 0.279616 0.937762 2.45924</acceleration>
+          <wrench>-0.000664 -0.001417 -0.000353 0 -0 0</wrench>
+        </link>
+        <link name='yumi_link_2_l'>
+          <pose>0.146921 0.114419 0.535508 -1.64386 0.020161 -2.70619</pose>
+          <velocity>1e-06 -2e-06 1e-06 4e-06 1e-06 -1e-06</velocity>
+          <acceleration>0.019091 -0.043648 -0.00261 0.019805 -0.392353 2.75573</acceleration>
+          <wrench>0.019091 -0.043648 -0.00261 0 -0 0</wrench>
+        </link>
+        <link name='yumi_link_2_r'>
+          <pose>0.137574 -0.12849 0.541453 -0.783405 0.657422 2.92519</pose>
+          <velocity>1e-06 -1e-06 -1e-06 0 -0 1e-06</velocity>
+          <acceleration>0.20506 0.211219 -0.201392 1.74185 -0.819741 1.17986</acceleration>
+          <wrench>0.20506 0.211219 -0.201392 0 -0 0</wrench>
+        </link>
+        <link name='yumi_link_3_l'>
+          <pose>0.171946 0.139974 0.363779 3.07089 0.027048 -2.61053</pose>
+          <velocity>1e-06 -1e-06 1e-06 4e-06 1e-06 2e-06</velocity>
+          <acceleration>-0.57792 -0.589524 -0.17074 0.028086 -0.342446 -2.86138</acceleration>
+          <wrench>-0.57792 -0.589524 -0.17074 0 -0 0</wrench>
+        </link>
+        <link name='yumi_link_3_r'>
+          <pose>0.207266 -0.269189 0.463241 -2.64265 -0.88136 -1.85543</pose>
+          <velocity>1e-06 -2e-06 -1e-06 0 1e-06 2e-06</velocity>
+          <acceleration>-0.380407 1.43882 -2.93294 -2.64923 1.32324 0.633083</acceleration>
+          <wrench>-0.380407 1.43882 -2.93294 0 -0 0</wrench>
+        </link>
+        <link name='yumi_link_4_l'>
+          <pose>0.207059 0.167048 0.286407 2.82131 1.49633 1.78276</pose>
+          <velocity>1e-06 -1e-06 1e-06 1e-06 4e-06 3e-06</velocity>
+          <acceleration>-0.855079 -0.820639 -0.377318 2.05515 -1.27202 -2.26867</acceleration>
+          <wrench>-0.855079 -0.820639 -0.377318 0 -0 0</wrench>
+        </link>
+        <link name='yumi_link_4_r'>
+          <pose>0.235924 -0.305396 0.386951 -1.1815 0.640547 -1.21692</pose>
+          <velocity>1e-06 -2e-06 -1e-06 4e-06 2e-06 3e-06</velocity>
+          <acceleration>-0.937502 2.69245 -3.73776 -0.87738 -1.33852 -0.59463</acceleration>
+          <wrench>-0.937502 2.69245 -3.73776 0 -0 0</wrench>
+        </link>
+        <link name='yumi_link_5_l'>
+          <pose>0.348295 0.253388 0.249875 -1.54716 -0.137121 -1.04271</pose>
+          <velocity>0 -1e-06 0 -2e-06 2e-06 2e-06</velocity>
+          <acceleration>-1.32125 -0.9666 -2.52434 0.407159 -0.30345 -2.31355</acceleration>
+          <wrench>-1.32125 -0.9666 -2.52434 0 -0 0</wrench>
+        </link>
+        <link name='yumi_link_5_r'>
+          <pose>0.27424 -0.228829 0.240643 2.41826 0.14489 3.05587</pose>
+          <velocity>1e-06 -2e-06 -1e-06 4e-06 2e-06 3e-06</velocity>
+          <acceleration>-1.1341 1.3809 -4.47576 -1.89068 0.940262 -2.30968</acceleration>
+          <wrench>-1.1341 1.3809 -4.47576 0 -0 0</wrench>
+        </link>
+        <link name='yumi_link_6_l'>
+          <pose>0.421344 0.327342 0.248535 0.095204 -0.10159 -1.62743</pose>
+          <velocity>-0 -0 0 -2e-06 2e-06 1e-06</velocity>
+          <acceleration>-1.39553 -0.91819 -3.90184 0.607244 -0.06527 1.74821</acceleration>
+          <wrench>-1.39553 -0.91819 -3.90184 0 -0 0</wrench>
+        </link>
+        <link name='yumi_link_6_r'>
+          <pose>0.317374 -0.165844 0.170077 2.98831 0.846252 1.40844</pose>
+          <velocity>1e-06 -1e-06 -1e-06 5e-06 1e-06 2e-06</velocity>
+          <acceleration>-1.05482 0.704239 -5.03135 1.21628 1.3531 1.56787</acceleration>
+          <wrench>-1.05482 0.704239 -5.03135 0 -0 0</wrench>
+        </link>
+        <link name='yumi_link_7_l'>
+          <pose>0.448662 0.299169 0.254016 -1.43599 0.789291 -1.52175</pose>
+          <velocity>-0 -0 0 -1e-06 2e-06 1e-06</velocity>
+          <acceleration>-1.3818 -0.908537 -3.92321 -2.60407 0.374214 2.63884</acceleration>
+          <wrench>-1.65816 -1.09024 -4.70785 0 -0 0</wrench>
+        </link>
+        <link name='yumi_link_7_r'>
+          <pose>0.349086 -0.149545 0.152794 -1.42677 0.788943 -1.5155</pose>
+          <velocity>1e-06 -2e-06 -1e-06 -2e-06 1e-06 1e-06</velocity>
+          <acceleration>-1.05984 0.51143 -5.22363 0.198591 1.39084 -0.718065</acceleration>
+          <wrench>-1.27181 0.613716 -6.26836 0 -0 0</wrench>
+        </link>
+      </model>
+      <light name='sun'>
+        <pose>0 0 10 0 -0 0</pose>
+      </light>
+    </state>
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose>1.25952 0.007257 2.01189 0 1.04364 -2.89499</pose>
+        <view_controller>orbit</view_controller>
+        <projection_type>perspective</projection_type>
+      </camera>
+    </gui>
+  </world>
+</sdf>

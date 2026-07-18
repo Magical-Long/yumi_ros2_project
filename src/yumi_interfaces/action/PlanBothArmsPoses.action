@@ -1,0 +1,21 @@
+# 左臂目标末端位姿，默认按规划接口层内部约定的世界坐标系解释。
+yumi_interfaces/Pose6D left_target_pose
+
+# 右臂目标末端位姿，默认按规划接口层内部约定的世界坐标系解释。
+yumi_interfaces/Pose6D right_target_pose
+
+# true 表示双臂规划成功后立即执行，false 表示只规划不执行。
+bool execute
+---
+# action 最终是否成功。
+bool success
+
+# 用于上层日志与调试的人类可读结果说明。
+string message
+
+# 双臂各自的关节轨迹。execute=true 时也会一并返回，便于上层调试与复用。
+trajectory_msgs/JointTrajectory left_planned_trajectory
+trajectory_msgs/JointTrajectory right_planned_trajectory
+---
+# 当前执行阶段，例如 planning_both_arms / executed_both_arms。
+string stage

@@ -1,0 +1,26 @@
+# MoveIt 各 planning group 的逆运动学求解配置。
+# 当前左右臂都使用 KDLKinematicsPlugin。
+
+arm_l:
+  # IK 求解器插件名称。
+  kinematics_solver: kdl_kinematics_plugin/KDLKinematicsPlugin
+  # IK 搜索分辨率，值越小越细，但求解更慢。
+  kinematics_solver_search_resolution: 0.005
+  # IK 单次求解超时，单位秒。
+  kinematics_solver_timeout: 0.01
+  # joint / position / orientation 目标容差。
+  goal_joint_tolerance: 0.0001
+  goal_position_tolerance: 0.0001
+  goal_orientation_tolerance: 0.001
+
+arm_r:
+  # IK 求解器插件名称。
+  kinematics_solver: kdl_kinematics_plugin/KDLKinematicsPlugin
+  # IK 搜索分辨率，值越小越细，但求解更慢。
+  kinematics_solver_search_resolution: 0.005
+  # IK 单次求解超时，单位秒。
+  kinematics_solver_timeout: 0.01
+  # joint / position / orientation 目标容差。
+  goal_joint_tolerance: 0.0001
+  goal_position_tolerance: 0.0001
+  goal_orientation_tolerance: 0.001

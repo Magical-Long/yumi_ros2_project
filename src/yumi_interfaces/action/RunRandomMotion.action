@@ -1,0 +1,32 @@
+# 随机演示接口的模式枚举。
+uint8 MODE_SINGLE_ARM=0
+uint8 MODE_DUAL_ARM=1
+
+# 单臂模式下的左右臂选择枚举。
+uint8 ARM_LEFT=0
+uint8 ARM_RIGHT=1
+
+# 演示模式选择。
+uint8 mode
+
+# 单臂模式下需要运动的手臂。
+# 当 mode 为 MODE_DUAL_ARM 时，该字段会被忽略。
+uint8 arm
+
+# 随机采样时允许的最大尝试次数。
+int32 max_attempts
+
+# true 表示规划成功后立刻执行，false 表示只规划不执行。
+bool execute
+
+# true 表示动作完成后自动回到 home。
+bool reset_to_home_after_execution
+---
+# action 最终是否成功。
+bool success
+
+# 用于上层日志与调试的人类可读结果说明。
+string message
+---
+# 当前执行阶段，例如 sampling_random_targets / completed。
+string stage

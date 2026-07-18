@@ -1,0 +1,11 @@
+# 双臂同时回到 home 的 action。
+# 目标阶段不需要额外输入参数，调用即表示“左右臂一起回 home”。
+---
+# action 最终是否成功。
+bool success
+
+# 用于上层日志与调试的人类可读结果说明。
+string message
+---
+# 当前执行阶段，例如 planning_home / home_reached。
+string stage

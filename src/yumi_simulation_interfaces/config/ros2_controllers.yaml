@@ -1,0 +1,31 @@
+# 旧版通用轨迹控制配置。
+# 当前更推荐使用 ros2_controllers_traj.yaml 或 ros2_controllers_velocity.yaml
+# 作为独立 bringup 的明确入口；本文件可视为早期兼容版本。
+controller_manager:
+  ros__parameters:
+    # controller_manager 主循环频率，单位 Hz。
+    update_rate: 100
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+    left_arm_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+    right_arm_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+left_arm_controller:
+  ros__parameters:
+    # 左臂关节顺序必须与 trajectory points 中的 joint_names 保持一致。
+    joints: [yumi_joint_1_l, yumi_joint_2_l, yumi_joint_7_l, yumi_joint_3_l, yumi_joint_4_l, yumi_joint_5_l, yumi_joint_6_l]
+    # 轨迹控制模式下仅接收 position command interface。
+    command_interfaces: [position]
+    # 暴露 position / velocity 作为状态反馈给上层。
+    state_interfaces: [position, velocity]
+
+right_arm_controller:
+  ros__parameters:
+    # 右臂关节顺序必须与 trajectory points 中的 joint_names 保持一致。
+    joints: [yumi_joint_1_r, yumi_joint_2_r, yumi_joint_7_r, yumi_joint_3_r, yumi_joint_4_r, yumi_joint_5_r, yumi_joint_6_r]
+    # 轨迹控制模式下仅接收 position command interface。
+    command_interfaces: [position]
+    # 暴露 position / velocity 作为状态反馈给上层。
+    state_interfaces: [position, velocity]

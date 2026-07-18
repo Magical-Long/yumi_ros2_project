@@ -1,0 +1,25 @@
+# 单臂规划接口的左右臂选择枚举。
+# 上层只需要传一个轻量标记，不再传 "arm_l" / "arm_r" 这样的字符串。
+uint8 ARM_LEFT=0
+uint8 ARM_RIGHT=1
+
+# 目标手臂选择。
+uint8 arm
+
+# 目标末端位姿，默认按规划接口层内部约定的世界坐标系解释。
+yumi_interfaces/Pose6D target_pose
+
+# true 表示规划成功后立刻执行，false 表示只规划不执行。
+bool execute
+---
+# action 最终是否成功。
+bool success
+
+# 用于上层日志与调试的人类可读结果说明。
+string message
+
+# 规划得到的关节轨迹。execute=true 时也会一并返回，便于上层调试。
+trajectory_msgs/JointTrajectory planned_trajectory
+---
+# 当前执行阶段，例如 planning / executed。
+string stage

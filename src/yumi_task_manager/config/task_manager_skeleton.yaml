@@ -1,0 +1,89 @@
+yumi_task_manager:
+  ros__parameters:
+    # 顶层只保留两类空间状态：
+    # 0 -> SPACE_UNSPECIFIED
+    # 1 -> SPACE_FREE
+    # 2 -> SPACE_CONSTRAINED
+    motion_space_mode: 1
+
+    # command_mode 描述的是底层控制器模式，不随自由空间/约束空间切换。
+    # 如果当前整套系统底层固定使用关节速度控制器，这里就始终设为 2。
+    # 0 -> MODE_UNSPECIFIED
+    # 1 -> MODE_TRAJECTORY
+    # 2 -> MODE_VELOCITY
+    # 3 -> MODE_EFFORT
+    # 4 -> MODE_HYBRID_FORCE_POSITION
+    command_mode: 2
+
+    # 是否以“物体/虚拟物体”为主控制对象。
+    # false: 以左右末端各自目标为主
+    # true : 以 object_target_pose 为主，左右臂共同服务于物体目标
+    use_object_target: false
+
+    # 是否启用力相关目标。
+    # false: 纯位置/轨迹任务
+    # true : 允许后续协同控制层读取 target_internal_force
+    enable_force_control: false
+
+    # 目标内力/夹持力占位参数。
+    # 当前骨架阶段主要用于接口预留，真正的内力控制模块后续再接入。
+    target_internal_force: 0.0
+
+    # 发布 CooperativeTaskCommand 的周期，单位秒。
+    # 这里只是 task_manager 的命令广播周期，不是底层控制周期。
+    publish_period_sec: 0.2
+
+    # 启动握手机制：
+    # true 时，task_manager 会等待 cooperative_controller_status.ready_for_task=true
+    # 后才开始发布 /cooperative_task_command，避免 planning action 尚未 ready 时提前发任务。
+    wait_for_cooperative_ready: true
+
+    # 是否启用预定义步骤序列。
+    enable_sequence_execution: true
+
+    # 是否根据低层反馈自动推进到下一步。
+    enable_feedback_driven_transition: true
+
+    # 每组至少保持这么久，单位秒。
+    sequence_min_step_hold_sec: 2.0
+
+    # 序列共 2 组，所有组均为双臂联合目标。
+    # 第 1 组: 自由空间接近箱体两侧的预接触位姿
+    # 第 2 组: 约束空间小范围任务空间测试，左右臂从预接触位姿低速向内靠近
+    # pose 格式: [x, y, z, roll, pitch, yaw]
+    sequence_motion_spaces: [1, 2, 2]
+    sequence_command_modes: [2, 2, 2]
+    sequence_use_object_target: [false, true, true]
+    sequence_enable_force_control: [false, false, false]
+    sequence_target_internal_forces: [0.0, 0.0, 0.0]
+    sequence_left_target_poses: [
+      0.350000, 0.14000, 0.108000, 0.0, 1.57079, 0.0,
+      0.350000, 0.15000, 0.108000, 0.0, 1.57079, 0.0,
+      0.350000, 0.15000, 0.108000, 0.0, 1.57079, 0.0
+    ]
+    sequence_right_target_poses: [
+      0.350000, -0.14000, 0.158000, 0.0, 1.57079, 0.0,
+      0.350000, -0.15000, 0.158000, 0.0, 1.57079, 0.0,
+      0.350000, -0.15000, 0.158000, 0.0, 1.57079, 0.0
+    ]
+    sequence_object_target_poses: [
+      0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+      0.380000, 0.0000, 0.358000, 0.0, 0.0, 0.0,
+      0.380000, 0.25000, 0.358000, 0.0, 0.0, 0.0
+    ]
+
+    # 位姿数组统一采用：
+    # [x, y, z, roll, pitch, yaw]
+    # 默认参考系建议使用 world。
+    # FREE_SPACE 阶段先把双臂带到 ready 对应的末端位姿。
+    # 这组值来自当前 ready 关节角 [0, -1, 0, 0, 0, 0, 0] 的 FK 结果。
+    free_space_left_target_pose: [0.476239, 0.313782, 0.823692, -1.423986, 0.788104, -1.512160]
+    free_space_right_target_pose: [0.476226, -0.314137, 0.823431, 1.422371, 0.784801, 1.512639]
+
+    # CONSTRAINED_SPACE 阶段再发布真正的任务目标位姿。
+    constrained_left_target_pose: [0.4, 0.2, 0.3, 0.0, 0.0, 0.0]
+    constrained_right_target_pose: [0.4, -0.2, 0.3, 0.0, 0.0, 0.0]
+
+    # 当 use_object_target=true 时，协同控制层应优先解释这个目标。
+    # 例如双臂协同搬运时，可把它理解为箱体中心或虚拟物体 frame 的目标位姿。
+    object_target_pose: [0.45, 0.0, 0.25, 0.0, 0.0, 0.0]

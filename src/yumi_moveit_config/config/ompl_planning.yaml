@@ -1,0 +1,69 @@
+# OMPL 规划器配置。
+# planner_configs 定义具体算法参数，arm_l / arm_r / both_arms 再选择默认算法和组级参数。
+
+planner_configs:
+  RRT:
+    # 经典单树采样规划器。
+    type: geometric::RRT
+    # 0.0 通常表示由 OMPL 自动选择扩展步长。
+    range: 0.0
+    # 越大越倾向直接朝目标扩展。
+    goal_bias: 0.05
+  RRTConnect:
+    # 双树扩展，常作为机械臂默认规划器。
+    type: geometric::RRTConnect
+    range: 0.0
+  RRTstar:
+    # 渐近最优版本，通常比 RRTConnect 慢。
+    type: geometric::RRTstar
+    range: 0.0
+    goal_bias: 0.05
+    # 1 表示延迟碰撞检测，可在部分场景下降低开销。
+    delay_collision_checking: 1
+  PRM:
+    # 基于路网的概率路线图规划器。
+    type: geometric::PRM
+    max_nearest_neighbors: 10
+  PRMstar:
+    # PRM 的渐近最优版本。
+    type: geometric::PRMstar
+
+arm_l:
+  # 左臂 planning group 默认规划器。
+  default_planner_config: RRTConnect
+  # 允许该 group 使用的规划器集合。
+  planner_configs:
+    - RRT
+    - RRTConnect
+    - RRTstar
+    - PRM
+    - PRMstar
+  # 用于投影采样的关节选择。
+  projection_evaluator: joints(yumi_joint_1_l,yumi_joint_2_l)
+  # 碰撞检测分段密度；越小越保守，但计算更重。
+  longest_valid_segment_fraction: 0.005
+
+arm_r:
+  # 右臂 planning group 默认规划器。
+  default_planner_config: RRTConnect
+  # 允许该 group 使用的规划器集合。
+  planner_configs:
+    - RRT
+    - RRTConnect
+    - RRTstar
+    - PRM
+    - PRMstar
+  # 用于投影采样的关节选择。
+  projection_evaluator: joints(yumi_joint_1_r,yumi_joint_2_r)
+  # 碰撞检测分段密度；越小越保守，但计算更重。
+  longest_valid_segment_fraction: 0.005
+
+both_arms:
+  # 双臂 group 默认规划器。
+  default_planner_config: RRTConnect
+  # 双臂组通常先从较稳的采样规划器开始。
+  planner_configs:
+    - RRT
+    - RRTConnect
+  # 双臂规划时通常需要更细的碰撞检测分段。
+  longest_valid_segment_fraction: 0.0025

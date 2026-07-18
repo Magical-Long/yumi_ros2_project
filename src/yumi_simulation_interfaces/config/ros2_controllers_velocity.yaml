@@ -1,0 +1,28 @@
+# 速度模式专用 ros2_control 配置。
+# 适合验证关节速度控制、协同控制层输出的速度命令链路。
+controller_manager:
+  ros__parameters:
+    # controller_manager 主循环频率，单位 Hz。
+    update_rate: 250
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+    left_arm_velocity_controller:
+      type: velocity_controllers/JointGroupVelocityController
+    right_arm_velocity_controller:
+      type: velocity_controllers/JointGroupVelocityController
+
+left_arm_velocity_controller:
+  ros__parameters:
+    # 左臂速度控制器的关节顺序。
+    # 外部发到 /left_arm_velocity_controller/commands 的数组必须与这里一致。
+    joints: [yumi_joint_1_l, yumi_joint_2_l, yumi_joint_7_l, yumi_joint_3_l, yumi_joint_4_l, yumi_joint_5_l, yumi_joint_6_l]
+    # 当前 controller 接收的命令接口名称。
+    interface_name: velocity
+
+right_arm_velocity_controller:
+  ros__parameters:
+    # 右臂速度控制器的关节顺序。
+    # 外部发到 /right_arm_velocity_controller/commands 的数组必须与这里一致。
+    joints: [yumi_joint_1_r, yumi_joint_2_r, yumi_joint_7_r, yumi_joint_3_r, yumi_joint_4_r, yumi_joint_5_r, yumi_joint_6_r]
+    # 当前 controller 接收的命令接口名称。
+    interface_name: velocity

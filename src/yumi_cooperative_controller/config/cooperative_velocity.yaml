@@ -1,0 +1,42 @@
+yumi_cooperative_controller:
+  ros__parameters:
+    # 左臂和右臂关节顺序。
+    # 这个顺序必须和 joint_states 重排、执行适配器转发、后续低层控制器一致。
+    left_joint_names: [yumi_joint_1_l, yumi_joint_2_l, yumi_joint_7_l, yumi_joint_3_l, yumi_joint_4_l, yumi_joint_5_l, yumi_joint_6_l]
+    right_joint_names: [yumi_joint_1_r, yumi_joint_2_r, yumi_joint_7_r, yumi_joint_3_r, yumi_joint_4_r, yumi_joint_5_r, yumi_joint_6_r]
+
+    # 初始化阶段的标准安全位姿。
+    # 当前第一版协同控制会把双臂先拉到这个 ready/home 姿态，再进入 holding 或 working。
+    # 这组关节角对应的 world 系末端位姿（frame: gripper_l_base / gripper_r_base）约为：
+    # - left  xyz: [0.476239,  0.313782, 0.823692]
+    # - left  rpy: [-1.423986, 0.788104, -1.512160]
+    # - right xyz: [0.476226, -0.314137, 0.823431]
+    # - right rpy: [ 1.422371, 0.784801,  1.512639]
+    ready_left_positions: [0.0, -1.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    ready_right_positions: [0.0, -1.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+    # 控制循环周期，单位秒。
+    # 当前只是协同控制层参考发布周期，不是底层电机/仿真器内部周期。
+    control_period_sec: 0.02
+
+    # planning_interface 中双臂末端位姿规划 action 的名称。
+    # 自由空间命令会通过这个 action 获取双臂 joint trajectory。
+    plan_both_arms_poses_action_name: plan_both_arms_poses
+    # 普通约束空间命令会通过这个 action 获取任务空间参考轨迹。
+    plan_task_space_trajectory_action_name: plan_task_space_trajectory
+
+    # 启动阶段等待规划 action server 的最长时间，单位秒。
+    planning_action_server_wait_timeout_sec: 5.0
+
+    # 自由空间 / 普通约束空间 MoveIt 规划参数。
+    # 物体空间轨迹由协同控制层内部按半余弦时间插补生成。
+    planning_time_sec: 5.0
+    planning_num_attempts: 3
+    planning_velocity_scaling: 0.2
+    planning_acceleration_scaling: 0.2
+    planning_sample_period_sec: 0.05
+    joint_planning_result_timeout_sec: 12.0
+    object_trajectory_duration_sec: 5.0
+    object_reference_frame: world
+    left_end_effector_frame: yumi_link_7_l
+    right_end_effector_frame: yumi_link_7_r

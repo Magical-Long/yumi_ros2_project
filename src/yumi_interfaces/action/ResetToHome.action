@@ -1,0 +1,15 @@
+# 单臂 home 复位接口的左右臂选择枚举。
+uint8 ARM_LEFT=0
+uint8 ARM_RIGHT=1
+
+# 需要复位到 home 的手臂。
+uint8 arm
+---
+# action 最终是否成功。
+bool success
+
+# 用于上层日志与调试的人类可读结果说明。
+string message
+---
+# 当前执行阶段，例如 planning_home / home_reached。
+string stage

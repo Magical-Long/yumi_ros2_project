@@ -1,0 +1,84 @@
+# MoveIt 规划层的关节速度/加速度限制覆盖。
+# 如果这里的限制比 URDF 更保守，MoveIt 会优先采用这里的值。
+
+# 全局缩放因子默认值。
+# 这些值会影响规划和执行请求中的速度/加速度缩放上限。
+default_velocity_scaling_factor: 0.1
+default_acceleration_scaling_factor: 0.1
+
+joint_limits:
+  yumi_joint_1_l:
+    # 是否启用该关节的速度限制。
+    has_velocity_limits: true
+    # 最大关节速度，单位 rad/s。
+    max_velocity: 3.14
+    # 当前是否启用加速度限制。
+    has_acceleration_limits: false
+    # 最大关节加速度，单位 rad/s^2。
+    # 当 has_acceleration_limits=false 时，该值主要作为占位。
+    max_acceleration: 0.0
+  yumi_joint_1_r:
+    has_velocity_limits: true
+    max_velocity: 3.14
+    has_acceleration_limits: false
+    max_acceleration: 0.0
+  yumi_joint_2_l:
+    has_velocity_limits: true
+    max_velocity: 3.14
+    has_acceleration_limits: false
+    max_acceleration: 0.0
+  yumi_joint_2_r:
+    has_velocity_limits: true
+    max_velocity: 3.14
+    has_acceleration_limits: false
+    max_acceleration: 0.0
+  yumi_joint_3_l:
+    has_velocity_limits: true
+    max_velocity: 3.14
+    has_acceleration_limits: false
+    max_acceleration: 0.0
+  yumi_joint_3_r:
+    has_velocity_limits: true
+    max_velocity: 3.14
+    has_acceleration_limits: false
+    max_acceleration: 0.0
+  yumi_joint_4_l:
+    has_velocity_limits: true
+    max_velocity: 6.98
+    has_acceleration_limits: false
+    max_acceleration: 0.0
+  yumi_joint_4_r:
+    has_velocity_limits: true
+    max_velocity: 6.98
+    has_acceleration_limits: false
+    max_acceleration: 0.0
+  yumi_joint_5_l:
+    has_velocity_limits: true
+    max_velocity: 6.98
+    has_acceleration_limits: false
+    max_acceleration: 0.0
+  yumi_joint_5_r:
+    has_velocity_limits: true
+    max_velocity: 6.98
+    has_acceleration_limits: false
+    max_acceleration: 0.0
+  yumi_joint_6_l:
+    has_velocity_limits: true
+    max_velocity: 3.14
+    has_acceleration_limits: false
+    max_acceleration: 0.0
+  yumi_joint_6_r:
+    has_velocity_limits: true
+    max_velocity: 3.14
+    has_acceleration_limits: false
+    max_acceleration: 0.0
+  yumi_joint_7_l:
+    has_velocity_limits: true
+    max_velocity: 3.14
+    has_acceleration_limits: false
+    max_acceleration: 0.0
+  yumi_joint_7_r:
+    has_velocity_limits: true
+    max_velocity: 3.14
+    has_acceleration_limits: false
+    max_acceleration: 0.0

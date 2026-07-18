@@ -1,0 +1,75 @@
+# 单臂规划接口的左右臂选择枚举。
+# 当 use_both_arms=false 时，arm 字段使用下面的枚举值。
+uint8 ARM_LEFT=0
+uint8 ARM_RIGHT=1
+
+# 是否用双臂一起规划。
+# true  : 左右臂同时参与规划，并最终返回双臂任务空间轨迹。
+# false : 只规划单臂，具体哪只手臂由 arm 字段决定。
+bool use_both_arms
+
+# 当 use_both_arms=false 时，指定当前要规划哪一只手臂。
+uint8 arm
+
+# 是否以物体/虚拟物体为主控制对象。
+# true  : 返回的轨迹点允许下游优先解释 object_target_pose。
+# false : 返回的轨迹点主要以左右末端参考为主。
+bool use_object_target
+
+# 是否启用力相关参考。
+# 当前主要作为接口预留，便于后续把导纳/阻抗/内力控制串进同一条链路。
+bool enable_force_control
+
+# 左右末端与物体的目标位姿。
+# 这里仍然使用 Pose6D 作为“上层输入表达”，
+# 但 planning_interface 输出的任务空间轨迹会转换成位置 + 四元数姿态。
+yumi_interfaces/Pose6D left_target_pose
+yumi_interfaces/Pose6D right_target_pose
+yumi_interfaces/Pose6D object_target_pose
+
+# 可选的目标内力/夹持力参考。
+float64 target_internal_force
+
+# 目标位姿所属参考坐标系，默认建议使用 world。
+string reference_frame
+
+# true 表示优先使用笛卡尔/任务空间路径生成。
+# 当前骨架中该开关已预留，但仍会优先落回普通 MoveIt 位姿规划主链。
+bool use_cartesian_path
+
+# MoveIt 规划时间上限，单位秒。
+# 注意：这是“搜索可行轨迹”的时间上限，不是最终轨迹执行总时长。
+float64 planning_time
+
+# MoveIt 规划尝试次数。
+int32 num_planning_attempts
+
+# 规划阶段速度/加速度缩放因子。
+float64 velocity_scaling
+float64 acceleration_scaling
+
+# 将规划结果重采样成任务空间轨迹时采用的采样周期，单位秒。
+# 协同控制层后续会根据这个时间语义逐点发布参考。
+float64 sample_period
+
+# 若启用笛卡尔路径，可用该值指定 eef_step，单位米。
+float64 cartesian_step
+
+# 若启用笛卡尔路径，可用该值指定 jump_threshold。
+float64 jump_threshold
+
+# 笛卡尔路径时是否启用碰撞规避。
+bool avoid_collisions
+---
+# action 最终是否成功。
+bool success
+
+# 用于日志与调试的人类可读结果说明。
+string message
+
+# 规划接口层返回的整条任务空间轨迹。
+# 轨迹中的姿态统一使用四元数，便于后续做导纳/阻抗/姿态插值。
+yumi_interfaces/TaskSpaceTrajectory trajectory
+---
+# 当前执行阶段，例如 planning / sampling_task_space / finished。
+string stage

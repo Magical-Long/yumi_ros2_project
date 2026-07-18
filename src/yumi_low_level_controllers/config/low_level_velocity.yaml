@@ -1,0 +1,71 @@
+yumi_low_level_controller:
+  ros__parameters:
+    # 左右臂关节顺序必须与上层 reference 和仿真 velocity controller 一致。
+    left_joint_names: [yumi_joint_1_l, yumi_joint_2_l, yumi_joint_7_l, yumi_joint_3_l, yumi_joint_4_l, yumi_joint_5_l, yumi_joint_6_l]
+    right_joint_names: [yumi_joint_1_r, yumi_joint_2_r, yumi_joint_7_r, yumi_joint_3_r, yumi_joint_4_r, yumi_joint_5_r, yumi_joint_6_r]
+    # 任务空间控制的零空间参考姿态。
+    # 当 nullspace_posture_gain > 0 时，底层会在不破坏末端主任务的前提下向该构型轻微回拉。
+    left_nullspace_posture_target_positions: [1.73, 0.0, -1.35, 0.0, 0.0, 0.0, 0.0]
+    right_nullspace_posture_target_positions: [-1.73, 0.0, 1.35, 0.0, 0.0, 0.0, 0.0]
+    # 左右臂镜像符号映射，顺序同 joint_1, joint_2, joint_7, joint_3, joint_4, joint_5, joint_6。
+    # 期望关系为 q_left[j] ~= sign[j] * q_right[j]。
+    nullspace_symmetry_signs: [-1.0, 1.0, -1.0, 1.0, -1.0, 1.0, -1.0]
+
+    # 低层控制循环周期，单位秒。
+    control_period_sec: 0.004
+
+    # Pinocchio 运动学模型默认由节点通过 ROS 2 package index 定位到
+    # yumi_description/urdf/yumi.urdf，无需配置与工作空间绑定的绝对路径。
+    # 如需切换模型，请在启动节点时通过 urdf_path 参数显式覆盖。
+    # 左右末端 frame 名称，必须与 URDF / Pinocchio frame 名完全一致。
+    # 当前先用 gripper base 作为双臂末端操作 frame。
+    left_end_effector_frame: yumi_link_7_l
+    right_end_effector_frame: yumi_link_7_r
+
+    # 当前底层控制器类型。
+    # 可选值：
+    # - velocity
+    # - effort
+    # - trajectory
+    controller_type: velocity
+
+    # 当前第一版 joint-space velocity tracking 使用的位置误差比例增益。
+    joint_position_gain: 1.0
+
+    # 输出到 velocity controller 的关节速度饱和上限，单位 rad/s。
+    max_joint_velocity: 0.5
+
+    # 低层执行状态反馈阈值：
+    # - joint_goal_tolerance 用于判断关节空间目标是否到达
+    # - task_space_position_tolerance 用于判断末端平移误差是否足够小
+    # - task_space_orientation_tolerance 用于判断末端姿态误差是否足够小
+    joint_goal_tolerance: 0.05
+    task_space_position_tolerance: 0.05
+    task_space_orientation_tolerance: 0.09
+    goal_reached_reference_stable_time_sec: 0.2
+
+    # 任务空间速度控制预留增益。
+    # 当前任务空间 velocity 控制使用：
+    # v_cmd = v_ref + Kp * (x_ref - x) + Kd * (v_ref - v_current)
+    # 其中：
+    # - task_space_position_gain / orientation_gain     对应 Kp
+    # - task_space_position_damping_gain / orientation_damping_gain 对应 Kd
+    task_space_position_gain: 8.0
+    task_space_orientation_gain: 8.0
+    task_space_position_damping_gain: 0.1
+    task_space_orientation_damping_gain: 0.1
+
+    # 对相邻参考点差分得到的任务空间参考速度做一欧元滤波，抑制高频抖动。
+    # - min_cutoff 越小，滤波越强
+    # - beta 越大，快速变化时越容易放行
+    # - d_cutoff 控制导数项本身的平滑程度
+    one_euro_min_cutoff: 1.0
+    one_euro_beta: 0.01
+    one_euro_d_cutoff: 1.0
+
+    # 当前默认关闭零空间姿态偏置，避免它影响自由空间关节轨迹调试。
+    # 如果后续任务空间控制构型容易乱绕，可逐步调大该值。
+    nullspace_posture_gain: 0.3
+    # 镜像对称零空间增益，只在 task-space velocity 分支生效。
+    # 它会把左右臂向镜像构型轻轻拉近，但仍会经过 Jacobian 零空间投影，尽量不破坏末端主任务。
+    nullspace_symmetry_gain: 0.5
